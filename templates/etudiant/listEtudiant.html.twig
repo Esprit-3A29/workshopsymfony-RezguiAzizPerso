@@ -1,12 +1,23 @@
-<a href="{{ path('Add_etudiant') }}">+Add</a>
-<br>
-{% for i in tabEtudiant %}
-	id:
-	{{i.nce}}
-	name:{{i.username}}
-	moyenne:
-	{{i.moyenne}}
-	<a href="#">Rmove</a>
-	<a href="#">Update</a>
+{{form(formRech)}}
+	<a href="{{ path('Add_etudiant') }}">+Add</a>
 	<br>
-{%  endfor  %}
+	{% for i in tabEtudiant %}
+		id:
+		{{i.nce}}
+		name:{{i.username}}
+		moyenne:
+		{{i.moyenne}}
+		<a href="#">Rmove</a>
+		<a href="#">Update</a>
+		<br>
+	{%  endfor  %}
+	LIST ORDERED BY MOY
+	<br>
+	{% for i in sortbymoy %}
+		id:
+		{{i.nce}}
+		name:{{i.username}}
+		moyenne:
+		{{i.moyenne}}
+		<br>
+	{% endfor %}

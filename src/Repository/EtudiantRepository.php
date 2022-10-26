@@ -38,29 +38,43 @@ class EtudiantRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function sortbymoy()
+    {
+        $qb = $this->createQueryBuilder("a")
+            ->orderBy("a.moyenne", "ASC");
+        return $qb->getQuery()->getResult();
+    }
 
-//    /**
-//     * @return Etudiant[] Returns an array of Etudiant objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Etudiant[] Returns an array of Etudiant objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('e.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Etudiant
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Etudiant
+    //    {
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
+    public function searchStudent($nce)
+    {
+        $qb =  $this->createQueryBuilder('s')
+            ->where('s.nce LIKE :x')
+            ->setParameter('x', $nce);
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

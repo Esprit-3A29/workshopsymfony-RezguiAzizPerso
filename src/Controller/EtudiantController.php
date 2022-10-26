@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etudiant;
+use App\Form\StudentRechType;
 use App\Form\StudentType;
 use App\Repository\EtudiantRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,12 +15,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class EtudiantController extends AbstractController
 {
     #[Route('/Etudiant', name: 'app_etudiant')]
-    public function index(EtudiantRepository $repository): Response
+    public function index(Request $request, EtudiantRepository $repository): Response
     {
         $value = $repository->findAll();
-        return $this->render(
+        $sortbymoy = $repository->sortbymoy();
+        $formRech = $this->createForm(StudentRechType::class);
+        $formRech->handleRequest($request);
+        if ($formRech->isSubmitted()) {
+            $nce = $formRech->get('nce')->getData();
+            $result = $repository->searchStudent($nce);
+            return $this->renderForm(
+                "etudiant/listEtudiant.html.twig",
+                array("tabEtudiant" => $result, "formRech" => $formRech, "sortbymoy" => $sortbymoy,)
+            );
+        }
+        return $this->renderForm(
             'etudiant/listEtudiant.html.twig',
-            array("tabEtudiant" => $value)
+            array("tabEtudiant" => $value, "sortbymoy" => $sortbymoy, "formRech" => $formRech)
         );
     }
     #[Route('/AddEtudiant', name: 'Add_etudiant')]
